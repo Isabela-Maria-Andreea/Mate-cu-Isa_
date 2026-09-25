@@ -1,0 +1,172 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config';
+import poza from '../assets/isa.jpeg';
+---
+
+<Base
+  titlu="Cine este Isa? — matecuisa"
+  descriere="Studentă la Automatică și Calculatoare, UPB. Pregătesc elevi pentru bacul la matematică pe raționament și pe barem, nu pe soluții scrise de-a gata."
+  wide
+>
+  <section class="erou">
+    <div class="erou-text">
+      <p class="erou-eticheta">Cine este Isa</p>
+      <h1 class="erou-nume">Maria Isabela</h1>
+      <p class="erou-rol">Mentor pentru bacul la matematică</p>
+
+      <p class="erou-lede">
+        Pentru elevii cu care lucrez sunt Isa. Am dat bacul la matematică recent și am
+        intrat la buget la Facultatea de Automatică și Calculatoare a Universității
+        Politehnica din București. Știu din experiență ce se punctează pe foaie și ce
+        se scrie degeaba.
+      </p>
+
+      <dl class="erou-fapte">
+        <div>
+          <dt>Studii</dt>
+          <dd>Facultatea de Automatică și Calculatoare, UPB</dd>
+        </div>
+        <div>
+          <dt>Predau din</dt>
+          <dd>2025</dd>
+        </div>
+        <div>
+          <dt>Pregătire</dt>
+          <dd>Modulul psihopedagogic</dd>
+        </div>
+      </dl>
+    </div>
+
+    <figure class="erou-poza">
+      <Image
+        src={poza}
+        alt="Maria Isabela, autoarea site-ului"
+        widths={[480, 760, 1024]}
+        sizes="(min-width: 52rem) 42rem, 100vw"
+        class="erou-img"
+        loading="eager"
+      />
+    </figure>
+
+    <a class="erou-sageata" href="#continut">Derulează</a>
+  </section>
+
+  <div class="despre-corp" id="continut">
+    <section class="despre-sectiune reveal">
+      <p class="sectiune-nr">01</p>
+      <h2>Ce am observat lucrând cu elevi</h2>
+      <p>
+        Majoritatea elevilor nu se pregătesc prost din lipsă de efort. Se pregătesc prost
+        pentru că au fost obișnuiți să primească soluții.
+      </p>
+      <p>
+        Meditațiile se fac adesea în grupe mari, iar elevul pleacă acasă cu rezolvarea
+        scrisă pe caiet. Are senzația că a învățat. La examen descoperă că nu știe să
+        înceapă singur.
+      </p>
+      <p>
+        Inteligența artificială accelerează același tipar. Într-o cercetare la care am
+        lucrat am urmărit ce se întâmplă cu procesul metacognitiv al elevilor, adică
+        felul în care își monitorizează propria înțelegere. Schimbarea e vizibilă.
+      </p>
+      <p>
+        Înainte, un elev blocat într-o problemă trecea prin câțiva pași importanți: își
+        dădea seama că nu înțelege, încerca să spună exact ce anume nu înțelege, căuta o
+        cale și verifica dacă a mers. Cu un asistent AI la îndemână, pașii aceștia
+        dispar. Răspunsul vine înainte ca elevul să-și fi formulat întrebarea.
+      </p>
+      <p>
+        Pe termen scurt pare eficient. Pe termen lung, elevul nu mai exersează tocmai
+        abilitatea de care are nevoie în sala de examen, unde e singur cu foaia: să-și
+        dea seama când greșește și să se corecteze.
+      </p>
+    </section>
+
+    <section class="despre-sectiune reveal">
+      <p class="sectiune-nr">02</p>
+      <h2>Cum lucrez</h2>
+      <div class="principii">
+        <div class="principiu">
+          <span class="principiu-nr" aria-hidden="true">1</span>
+          <h3>Indicii, nu soluții</h3>
+          <p>
+            Rezolvarea completă o vezi după ce ai scris-o pe a ta, ca să le poți compara.
+          </p>
+        </div>
+        <div class="principiu">
+          <span class="principiu-nr" aria-hidden="true">2</span>
+          <h3>Raționament, nu formule memorate</h3>
+          <p>
+            O formulă învățată pe de rost cedează la prima variație a problemei.
+            Raționamentul se transferă.
+          </p>
+        </div>
+        <div class="principiu">
+          <span class="principiu-nr" aria-hidden="true">3</span>
+          <h3>Totul raportat la barem</h3>
+          <p>
+            Știi exact ce rând aduce puncte și ce justificare lipsește, înainte să o
+            descopere corectorul.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="despre-sectiune reveal">
+      <p class="sectiune-nr">03</p>
+      <h2>Bacul e un examen previzibil</h2>
+      <p>
+        Subiectele se construiesc pe aceleași tipuri de probleme, baremul cere aceleași
+        justificări, iar capcanele se repetă de la an la an. Cine înțelege tiparul poate
+        anticipa aproape tot ce apare pe foaie.
+      </p>
+      <blockquote class="citat">
+        O notă mare la bac nu se decide în cele trei ore de examen. Se construiește în
+        lunile dinainte, din fiecare problemă pe care ai înțeles-o, nu doar ai copiat-o.
+      </blockquote>
+    </section>
+
+    <section class="despre-sectiune reveal">
+      <p class="sectiune-nr">04</p>
+      <h2>Mentor, nu profesor</h2>
+      <p>
+        Nu am o catedră în spate, și spun asta deschis. Iată ce înseamnă concret.
+      </p>
+      <div class="doua comparatie">
+        <div class="card card-nu">
+          <h3>Ce nu am</h3>
+          <p>
+            Experiența a douăzeci de ani la catedră. Un profesor care a văzut mii de elevi
+            greșind are acolo un avantaj real.
+          </p>
+        </div>
+        <div class="card card-da">
+          <h3>Ce am</h3>
+          <p>
+            Examenul proaspăt în minte, materia folosită zilnic la facultate și pregătire
+            pedagogică prin modulul psihopedagogic.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="despre-sectiune reveal">
+      <p class="sectiune-nr">05</p>
+      <h2>Pregătire gratuită</h2>
+      <p>
+        Lucrez gratuit cu elevi care nu își permit meditații. Am început înainte de acest
+        site și continui independent de el. Dacă ești în situația asta, scrie-mi.
+      </p>
+    </section>
+
+    <div class="contact-inline reveal">
+      <h3>Ai o întrebare?</h3>
+      <p>Scrie-mi direct. Îți răspund personal, nu un formular automat.</p>
+      <div class="butoane">
+        <a class="buton" href={`mailto:${SITE.email}`}>Scrie-mi</a>
+      </div>
+    </div>
+  </div>
+</Base>

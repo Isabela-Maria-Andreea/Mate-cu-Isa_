@@ -1,0 +1,139 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE, MEDITATII } from '../../config';
+import IconWhatsapp from '../../components/IconWhatsapp.astro';
+
+// Link WhatsApp cu mesajul precompletat. Gol dacă numărul nu e setat,
+// iar butoanele WhatsApp nu mai apar.
+const whatsapp = SITE.whatsapp
+  ? `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(SITE.mesajWhatsapp)}`
+  : '';
+---
+
+<Base
+  titlu="Meditații 1 la 1 la matematică de bac — matecuisa"
+  descriere="Meditații individuale la matematică pentru bacalaureat. Cum lucrăm, cât costă, câte locuri sunt libere."
+  wide
+>
+  <section class="med-erou">
+    <div class="med-erou-text">
+      <p class="erou-eticheta">Meditații</p>
+      <h1 class="med-titlu">Matematică de bac,<br />1 la 1</h1>
+      <p class="med-lede">
+        Pregătire individuală pentru bacalaureat, online. Parcurgem și aprofundăm toată
+        programa, cu accent pe înțelegere, nu pe rețete.
+      </p>
+      <div class="butoane">
+        <a class="buton buton-mare" href={`mailto:${SITE.email}`}>Programează prima ședință</a>
+        <a class="buton ghost buton-mare" href="#cum-lucram">Cum lucrăm</a>
+      </div>
+    </div>
+
+    <aside class="oferta" aria-label="Pe scurt">
+      <p class="oferta-eticheta">Pe scurt</p>
+      <p class="oferta-tarif">
+        {MEDITATII.tarif}
+        <span class="oferta-durata">/ ședință de {MEDITATII.durata}</span>
+      </p>
+
+      <dl class="oferta-fapte">
+        <div><dt>Format</dt><dd>online, 1 la 1</dd></div>
+        <div><dt>Durată</dt><dd>{MEDITATII.durata}</dd></div>
+        <div><dt>Ritm</dt><dd>o ședință pe săptămână</dd></div>
+        <div><dt>Între ședințe</dt><dd>temă și întrebări pe mesaje</dd></div>
+      </dl>
+
+      {
+        whatsapp && (
+          <a class="buton buton-whatsapp cu-icon" href={whatsapp}>
+            <IconWhatsapp />
+            Scrie-mi pe WhatsApp
+          </a>
+        )
+      }
+    </aside>
+  </section>
+
+  {MEDITATII.observatie && <p class="med-observatie">{MEDITATII.observatie}</p>}
+
+  <div class="despre-corp">
+    <section class="despre-sectiune reveal" id="cum-lucram">
+      <p class="sectiune-nr">01</p>
+      <h2>Cum lucrăm</h2>
+      <div class="principii">
+        <div class="principiu">
+          <span class="principiu-nr" aria-hidden="true">1</span>
+          <h3>Indicii, nu soluții</h3>
+          <p>
+            Primești indicii până îți dai seama singur. La examen ești singur cu foaia,
+            așa că exersăm asta de la început.
+          </p>
+          <p>
+            Rezolvarea completă o vezi după ce ai scris-o pe a ta, ca să le poți compara.
+          </p>
+        </div>
+        <div class="principiu">
+          <span class="principiu-nr" aria-hidden="true">2</span>
+          <h3>Pornim de la ce greșești</h3>
+          <p>
+            Prima ședință e o problemă pe care o rezolvi în fața mea, ca să văd unde se
+            rupe raționamentul. Planul se construiește de acolo.
+          </p>
+        </div>
+        <div class="principiu">
+          <span class="principiu-nr" aria-hidden="true">3</span>
+          <h3>Toată programa, în profunzime</h3>
+          <p>
+            Nu sărim peste capitole și nu învățăm doar tipurile care „pică des”. Fiecare
+            noțiune se înțelege de la definiție până la aplicație.
+          </p>
+          <p>
+            Așa poți rezolva și o problemă pe care n-ai mai văzut-o.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="despre-sectiune reveal">
+      <p class="sectiune-nr">02</p>
+      <h2>Cum începem</h2>
+      <ol class="pasi">
+        <li class="pas-inceput">
+          <h3>Îmi scrii</h3>
+          <p>Îmi spui în ce clasă ești și unde te blochezi de obicei.</p>
+        </li>
+        <li class="pas-inceput">
+          <h3>Prima ședință</h3>
+          <p>
+            Rezolvi o problemă în fața mea, ca să văd unde se rupe raționamentul. De acolo
+            stabilim ce lucrăm.
+          </p>
+        </li>
+        <li class="pas-inceput">
+          <h3>Ritmul săptămânal</h3>
+          <p>
+            O ședință de {MEDITATII.durata} pe săptămână. Între ședințe ai temă și îmi
+            poți scrie oricând te blochezi.
+          </p>
+        </li>
+      </ol>
+    </section>
+
+    <div class="med-final reveal">
+      <h2>Prima ședință e fără risc</h2>
+      <p>Dacă după ea simți că nu e pentru tine, nu o plătești.</p>
+      <p>Scrie-mi și stabilim o zi.</p>
+      <div class="butoane">
+        <a class="buton buton-mare" href={`mailto:${SITE.email}`}>Scrie-mi</a>
+        {
+          whatsapp && (
+            <a class="buton ghost buton-mare cu-icon" href={whatsapp}>
+              <IconWhatsapp />
+              WhatsApp
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</Base>

@@ -1,0 +1,68 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { VARIANTE } from '../../variante';
+
+const rezolvari = await getCollection('rezolvari', ({ data }) => !data.ciorna);
+
+// Câte poziții din fiecare variantă au deja o rezolvare publicată.
+// Numărăm poziții distincte, nu articole: dacă din greșeală există două
+// rezolvări pe aceeași poziție, progresul rămâne corect.
+const rezolvatePeVarianta = new Map<string, Set<string>>();
+for (const r of rezolvari) {
+  if (!r.data.varianta) continue;
+  const set = rezolvatePeVarianta.get(r.data.varianta) ?? new Set<string>();
+  set.add(`${r.data.subiect}.${r.data.pozitie}`);
+  rezolvatePeVarianta.set(r.data.varianta, set);
+}
+
+const peAn = new Map<number, typeof VARIANTE>();
+for (const v of VARIANTE) {
+  const lista = peAn.get(v.an) ?? [];
+  lista.push(v);
+  peAn.set(v.an, lista);
+}
+const ani = [...peAn.entries()].sort((a, b) => b[0] - a[0]);
+---
+
+<Base
+  titlu="Variante de bac la matematică — matecuisa"
+  descriere="Variantele de bacalaureat la matematică, M_mate-info, cu rezolvările publicate pentru fiecare subiect. Vezi ce e rezolvat și ce urmează."
+  wide
+>
+  <h1>Variante</h1>
+  <p class="lede">
+    Variante de bac luate poziție cu poziție. Fiecare subiect rezolvat are pagina
+    lui, cu metoda și punctajul din barem. Programa M_mate-info.
+  </p>
+
+  {
+    ani.length === 0 ? (
+      <p class="gol">
+        Încă nicio variantă. Adaugă una în <code>src/variante.ts</code>.
+      </p>
+    ) : (
+      ani.map(([an, lista]) => (
+        <section>
+          <h2>{an}</h2>
+          <ul class="lista">
+            {lista.map((v) => {
+              const total = v.structura.length;
+              const gata = rezolvatePeVarianta.get(v.id)?.size ?? 0;
+              return (
+                <li>
+                  <a href={`/variante/${v.id}/`}>
+                    <span class="lista-t">{v.titlu}</span>
+                    <span class="lista-m">
+                      sesiunea {v.sesiune} · {gata} din {total} rezolvate
+                    </span>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      ))
+    )
+  }
+</Base>

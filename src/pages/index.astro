@@ -1,0 +1,52 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { MEDITATII } from '../config';
+
+const recente = (await getCollection('rezolvari', ({ data }) => !data.ciorna))
+  .sort((a, b) => b.data.data.valueOf() - a.data.data.valueOf())
+  .slice(0, 6);
+---
+
+<Base
+  titlu="matecuisa — matematică pentru bacalaureat, explicată"
+  descriere="Probleme de bac la matematică rezolvate pas cu pas, cu raționamentul din spatele metodei. Meditații 1 la 1 cu o studentă la Politehnică."
+>
+  <h1>Matematică de bac, explicată ca să înțelegi de ce</h1>
+
+  <p class="lede">
+    Rezolvările se găsesc peste tot. Ce nu se găsește e explicația pentru cum ar fi
+    trebuit să-ți dai seama singur ce metodă se folosește. Aici scriu partea aia.
+  </p>
+
+  <h2>Rezolvări recente</h2>
+
+  {
+    recente.length === 0 ? (
+      <p class="gol">Prima rezolvare urmează.</p>
+    ) : (
+      <ul class="lista">
+        {recente.map((r) => (
+          <li>
+            <a href={`/rezolvari/${r.id}/`}>
+              <span class="lista-t">{r.data.titlu}</span>
+              <span class="lista-m">{r.data.capitol}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+
+  <p style="margin-top:1rem"><a href="/rezolvari/">Toate rezolvările →</a></p>
+
+  <h2>Meditații 1 la 1</h2>
+  <p>
+    Predau singură, deci am {MEDITATII.locuriTotale} locuri pe săptămână. Lucrăm pe ce
+    nu îți iese, nu pe o programă fixă — și primești indicii, nu soluții gata scrise.
+  </p>
+  <div class="butoane">
+    <a class="buton" href="/meditatii/">Cum lucrăm</a>
+    <a class="buton ghost" href="/despre/">Cine scrie aici</a>
+  </div>
+</Base>

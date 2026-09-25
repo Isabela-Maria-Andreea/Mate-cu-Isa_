@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const toate = await getCollection('rezolvari', ({ data }) => !data.ciorna);
+
+// Grupate pe capitol — paginile astea prind căutările largi
+// și trimit autoritate către rezolvările individuale.
+const peCapitol = new Map<string, typeof toate>();
+for (const r of toate.sort((a, b) => a.data.titlu.localeCompare(b.data.titlu, 'ro'))) {
+  const lista = peCapitol.get(r.data.capitol) ?? [];
+  lista.push(r);
+  peCapitol.set(r.data.capitol, lista);
+}
+const capitole = [...peCapitol.entries()].sort((a, b) => a[0].localeCompare(b[0], 'ro'));
+---
+
+<Base
+  titlu="Rezolvări la matematică de bac — matecuisa"
+  descriere="Probleme de bacalaureat la matematică, M_mate-info, rezolvate pas cu pas: cum recunoști metoda, unde se pierd puncte la barem și ce greșeli apar cel mai des."
+  wide
+>
+  <h1>Rezolvări</h1>
+  <p class="lede">
+    Probleme de bac rezolvate pas cu pas, cu raționamentul din spatele metodei și
+    punctajul acordat de barem. Programa M_mate-info.
+  </p>
+
+  {
+    capitole.length === 0 ? (
+      <p class="gol">
+        Încă nicio rezolvare publicată. Adaugă un fișier .md în
+        <code> src/content/rezolvari/</code>.
+      </p>
+    ) : (
+      capitole.map(([capitol, lista]) => (
+        <section>
+          <h2>{capitol}</h2>
+          <ul class="lista">
+            {lista.map((r) => (
+              <li>
+                <a href={`/rezolvari/${r.id}/`}>
+                  <span class="lista-t">{r.data.titlu}</span>
+                  <span class="lista-m">
+                    {r.data.sursa} · {r.data.punctaj}p
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    )
+  }
+</Base>

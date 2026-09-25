@@ -1,0 +1,83 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { VARIANTE, type Subiect, type Varianta } from '../../variante';
+
+export async function getStaticPaths() {
+  return VARIANTE.map((v) => ({ params: { id: v.id }, props: { varianta: v } }));
+}
+
+const { varianta } = Astro.props as { varianta: Varianta };
+
+const rezolvari = await getCollection('rezolvari', ({ data }) => !data.ciorna);
+
+// Potrivirea e pe cele trei câmpuri împreună: varianta + subiect + pozitie.
+const peCheie = new Map<string, (typeof rezolvari)[number]>();
+for (const r of rezolvari) {
+  if (r.data.varianta !== varianta.id) continue;
+  peCheie.set(`${r.data.subiect}.${r.data.pozitie}`, r);
+}
+
+const ORDINE: Subiect[] = ['I', 'II', 'III'];
+const subiecte = ORDINE.map((s) => ({
+  subiect: s,
+  pozitii: varianta.structura
+    .filter((p) => p.subiect === s)
+    .sort((a, b) => a.pozitie - b.pozitie),
+})).filter((g) => g.pozitii.length > 0);
+
+const total = varianta.structura.length;
+const gata = varianta.structura.filter((p) =>
+  peCheie.has(`${p.subiect}.${p.pozitie}`),
+).length;
+---
+
+<Base
+  titlu={`${varianta.titlu} — rezolvări la matematică | matecuisa`}
+  descriere={`Toate subiectele din ${varianta.titlu} la matematică M_mate-info, cu rezolvările publicate pas cu pas și punctajul din barem.`}
+  wide
+>
+  <p class="trail"><a href="/variante/">Variante</a> → {varianta.an}</p>
+
+  <h1>{varianta.titlu}</h1>
+  <p class="lede">
+    Sesiunea {varianta.sesiune}, {varianta.an}. {gata} din {total} poziții rezolvate.
+    90 de puncte din lucrare, 10 din oficiu.
+  </p>
+
+  {
+    subiecte.map((g) => (
+      <section>
+        <h2>Subiectul {g.subiect}</h2>
+        <ul class="lista">
+          {g.pozitii.map((p) => {
+            const r = peCheie.get(`${p.subiect}.${p.pozitie}`);
+            return (
+              <li>
+                {r ? (
+                  <a href={`/rezolvari/${r.id}/`}>
+                    <span class="lista-t">
+                      <span class="pozitie-n">{p.pozitie}.</span>
+                      {r.data.titlu}
+                    </span>
+                    <span class="lista-m">{p.punctaj}p</span>
+                  </a>
+                ) : (
+                  <div class="lista-rand">
+                    <span class="lista-t">
+                      <span class="pozitie-n">{p.pozitie}.</span>
+                      {p.tema ? p.tema : '—'}
+                    </span>
+                    <span class="lista-m">
+                      <span class="tag plain">în curând</span> {p.punctaj}p
+                    </span>
+                  </div>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+    ))
+  }
+</Base>

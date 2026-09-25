@@ -1,0 +1,23 @@
+---
+/* Invitația de la finalul fiecărei rezolvări.
+   O frază, nu un banner — în tonul articolului. */
+import { SITE } from '../config';
+import IconWhatsapp from './IconWhatsapp.astro';
+
+const whatsapp = SITE.whatsapp
+  ? `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(SITE.mesajWhatsapp)}`
+  : '';
+---
+
+<div class="contact-inline">
+  <h3>Te blochezi în același loc de fiecare dată?</h3>
+  <p>
+    Fac meditații 1&nbsp;la&nbsp;1 la matematică de bac, online, în care parcurgem
+    toată programa în ritmul tău.
+  </p>
+  <div class="butoane">
+    <a class="buton" href="/meditatii/">Cum lucrăm</a>
+    {whatsapp && <a class="buton ghost cu-icon" href={whatsapp}><IconWhatsapp />WhatsApp</a>}
+    <a class="buton ghost" href={`mailto:${SITE.email}`}>Scrie-mi direct</a>
+  </div>
+</div>

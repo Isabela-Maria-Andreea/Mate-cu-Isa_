@@ -1,0 +1,1201 @@
+/* ---------------------------------------------------------------
+   Tot designul site-ului stă în fișierul ăsta.
+   Schimbi aici o culoare sau un font și se schimbă în toate paginile.
+   Nu ai nevoie să atingi niciun articol.
+   --------------------------------------------------------------- */
+
+:root {
+  --paper: #f6f7f9;
+  --card: #ffffff;
+  --ink: #16243d;
+  --ink-soft: #55627a;
+  --ink-faint: #8a94a6;
+  --rule: #e0e4eb;
+  --accent: #0f6e56;
+  --accent-dark: #0c5946;
+  --accent-bg: #e4f1ec;
+  --warn: #8a5b0b;
+  --warn-bg: #fbf0dc;
+
+  --serif: 'Spectral', Georgia, 'Times New Roman', serif;
+  --sans: 'Archivo', system-ui, -apple-system, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  /* Lățimea coloanei de text. ~65 de caractere: dincolo de asta
+     ochiul obosește, mai ales la matematică. */
+  --measure: 34rem;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+body {
+  overflow-x: clip;
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.72;
+}
+
+a { color: var(--accent); }
+
+/* ---------- Navigație ---------- */
+
+.chrome { border-bottom: 1px solid var(--rule); background: var(--card); }
+
+.chrome-in {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 0.9rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-family: var(--sans);
+}
+
+.wordmark {
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-decoration: none;
+}
+.wordmark span { color: var(--accent); }
+
+.nav { display: flex; gap: 1.25rem; font-size: 0.85rem; }
+.nav a { color: var(--ink-soft); text-decoration: none; }
+.nav a:hover { color: var(--accent); }
+.nav a[aria-current='page'] { color: var(--accent); font-weight: 500; }
+
+/* ---------- Layout ---------- */
+
+main { max-width: var(--measure); margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+main.wide { max-width: 58rem; }
+
+h1 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 2rem;
+  line-height: 1.24;
+  letter-spacing: -0.012em;
+  margin: 0 0 1rem;
+}
+
+h2 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.24rem;
+  line-height: 1.35;
+  margin: 2.6rem 0 0.7rem;
+}
+
+h3 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.06rem;
+  margin: 1.8rem 0 0.5rem;
+}
+
+p { margin: 0 0 1.05rem; }
+
+.lede { color: var(--ink-soft); font-size: 1.04rem; max-width: 36rem; }
+
+.trail {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  margin-bottom: 0.9rem;
+}
+.trail a { color: var(--ink-faint); text-decoration: none; }
+
+/* ---------- Etichete ---------- */
+
+.tags {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  font-family: var(--sans);
+  font-size: 0.76rem;
+  margin: 0 0 1.8rem;
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--rule);
+}
+.tag {
+  background: var(--accent-bg);
+  color: var(--accent);
+  padding: 0.22rem 0.6rem;
+  border-radius: 3px;
+  font-weight: 500;
+}
+.tag.plain {
+  background: transparent;
+  color: var(--ink-faint);
+  border: 1px solid var(--rule);
+}
+
+/* ---------- Blocuri din articol ----------
+   Le scrii în Markdown ca HTML simplu:
+   <div class="enunt"> ... </div>
+   ------------------------------------------ */
+
+.enunt {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--ink);
+  padding: 1.1rem 1.3rem;
+  margin: 0 0 2rem;
+}
+.enunt > :last-child { margin-bottom: 0; }
+.enunt-eticheta {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 0.4rem !important;
+}
+
+.aside {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  padding: 0.9rem 1.15rem;
+  margin: 1.6rem 0;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+}
+.aside strong { color: var(--ink); font-weight: 600; }
+.aside > :last-child { margin-bottom: 0; }
+
+/* Pașii rezolvării. Numerotarea e justificată: e o secvență reală. */
+.pas { display: grid; grid-template-columns: 1.9rem 1fr; gap: 0.85rem; margin: 1.7rem 0; }
+.pas-n {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--accent);
+  border-top: 2px solid var(--accent);
+  padding-top: 0.4rem;
+}
+.pas-c > :last-child { margin-bottom: 0; }
+.pas-c > strong:first-child { display: block; margin-bottom: 0.35rem; font-weight: 600; }
+
+.punct {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  color: var(--ink-faint);
+  float: right;
+}
+
+.rezultat {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 0.98rem;
+  background: var(--accent);
+  color: #fff;
+  display: inline-block;
+  padding: 0.38rem 0.85rem;
+  border-radius: 3px;
+  margin: 0.5rem 0 0;
+}
+
+.greseala { border-top: 1px solid var(--rule); padding-top: 1rem; margin-top: 1.3rem; }
+.greseala b { font-weight: 600; }
+
+/* ---------- Matematică ---------- */
+
+/* Formulele lungi nu se rup singure. Scroll pe formulă,
+   nu pe pagină — altfel se strică layoutul pe telefon. */
+.katex-display { margin: 1.1rem 0; overflow-x: auto; overflow-y: hidden; padding: 0.2rem 0; }
+.katex { font-size: 1.04em; }
+
+/* ---------- Cod ---------- */
+
+pre {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 0.9rem 1.1rem;
+  overflow-x: auto;
+  font-size: 0.86rem;
+}
+code { font-family: var(--mono); font-size: 0.88em; }
+
+/* ---------- Liste de pagini ---------- */
+
+.lista { list-style: none; padding: 0; margin: 0; }
+.lista li { border-bottom: 1px solid var(--rule); }
+.lista li:last-child { border-bottom: none; }
+.lista a {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  color: var(--ink);
+  text-decoration: none;
+}
+.lista a:hover .lista-t { color: var(--accent); text-decoration: underline; }
+.lista-t { font-size: 1rem; }
+.lista-m { font-family: var(--mono); font-size: 0.74rem; color: var(--ink-faint); white-space: nowrap; }
+
+/* Rând de listă fără link: o poziție de variantă încă nerezolvată.
+   Aceeași geometrie ca `.lista a`, dar stinsă și fără hover —
+   trebuie să se vadă din prima că nu duce nicăieri. */
+.lista-rand {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  color: var(--ink-faint);
+}
+.lista-rand .lista-t { color: var(--ink-faint); }
+
+/* Numărul poziției din subiect. Mono, ca punctajele. */
+.pozitie-n {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+  margin-right: 0.5rem;
+}
+
+.gol {
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  color: var(--ink-faint);
+  background: var(--card);
+  border: 1px dashed var(--rule);
+  padding: 1.2rem;
+  text-align: center;
+}
+
+/* ---------- Invitația la meditații ----------
+   Apare la finalul fiecărei rezolvări. Discretă, în tonul textului:
+   nu e banner, e o frază. */
+
+.contact-inline {
+  margin-top: 3rem;
+  border-top: 1px solid var(--rule);
+  padding-top: 1.5rem;
+  font-family: var(--sans);
+}
+.contact-inline h3 { font-family: var(--serif); font-size: 1.04rem; margin: 0 0 0.3rem; }
+.contact-inline p { font-size: 0.92rem; color: var(--ink-soft); margin: 0 0 0.9rem; }
+
+.buton {
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  font-weight: 500;
+  padding: 0.56rem 1.1rem;
+  border: none;
+  border-radius: 3px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+.buton:hover { background: var(--accent-dark); }
+.buton.ghost { background: transparent; color: var(--ink); border: 1px solid var(--rule); }
+.buton.ghost:hover { background: var(--paper); }
+
+.butoane { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+
+/* ---------- Introducerea din pagina Despre ----------
+   Pe telefon: poza deasupra textului, mică, aliniată la stânga.
+   De la 34rem în sus: poza în stânga, textul lângă ea. Coloana pozei
+   e îngustă intenționat — pagina stă la --measure și textul ar rămâne
+   prea strâmt lângă o poză mare. */
+
+.despre-intro { margin: 0 0 1.05rem; }
+
+.despre-poza {
+  display: block;
+  width: 100%;
+  max-width: 11rem;
+  height: auto;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  background: var(--card);
+  margin: 0 0 1.1rem;
+}
+
+@media (min-width: 34rem) {
+  .despre-intro {
+    display: grid;
+    grid-template-columns: 9.5rem 1fr;
+    gap: 1.4rem;
+    align-items: start;
+  }
+  .despre-poza { max-width: none; margin: 0.35rem 0 0; }
+  .despre-intro .lede { margin: 0; }
+}
+
+/* ---------- Fapte (pagina Despre) ---------- */
+
+.fapte { font-family: var(--sans); font-size: 0.88rem; margin: 1.6rem 0 2.2rem; }
+.fapte div { display: flex; gap: 1rem; padding: 0.5rem 0; border-bottom: 1px solid var(--rule); }
+.fapte dt { color: var(--ink-faint); min-width: 10rem; flex-shrink: 0; }
+.fapte dd { margin: 0; }
+
+.pull {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.08rem;
+  color: var(--ink-soft);
+  border-left: 2px solid var(--accent);
+  padding: 0.2rem 0 0.2rem 1.1rem;
+  margin: 1.8rem 0;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  padding: 1.2rem 1.35rem;
+  margin: 1.6rem 0;
+}
+.card > :last-child { margin-bottom: 0; }
+.card p { font-size: 0.97rem; }
+
+.locuri {
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--accent);
+  background: var(--accent-bg);
+  padding: 0.28rem 0.7rem;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+/* ---------- Subsol ---------- */
+
+footer {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  border-top: 1px solid var(--rule);
+  padding: 1.5rem;
+  text-align: center;
+}
+footer a { color: var(--ink-faint); }
+
+/* Enunț netranscris încă — vizibil, dar fără să pice build-ul. */
+.enunt.lipsa {
+  border-left-color: var(--warn);
+  background: var(--warn-bg);
+  color: var(--warn);
+}
+.enunt.lipsa .enunt-eticheta { color: var(--warn); }
+.enunt.lipsa code {
+  background: rgba(0, 0, 0, 0.05);
+  padding: 0.05rem 0.25rem;
+  border-radius: 2px;
+}
+
+/* ---------- Cadranele de trimitere la subpuncte ----------
+   Apar la problemele de 15 puncte, sub etichete: trei cartonașe
+   care duc direct la a), b) sau c). ------------------------- */
+
+.cadrane {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  margin: 0 0 2.2rem;
+  font-family: var(--sans);
+}
+
+.cadran {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-top: 2px solid var(--rule);
+  padding: 0.85rem 0.9rem 0.8rem;
+  text-decoration: none;
+  color: var(--ink);
+  transition: border-color 0.12s ease, background 0.12s ease;
+}
+.cadran:hover {
+  border-color: var(--rule);
+  border-top-color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.cadran-l {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.45rem;
+  line-height: 1;
+  color: var(--accent);
+}
+.cadran-t {
+  font-size: 0.86rem;
+  line-height: 1.35;
+  flex: 1;
+}
+.cadran-p {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 34rem) {
+  .cadrane { grid-template-columns: 1fr; }
+  .cadran { flex-direction: row; align-items: baseline; gap: 0.6rem; }
+  .cadran-l { font-size: 1.15rem; }
+}
+
+/* ---------- Marcajul unui subpunct ----------
+   Se scrie în articol înaintea titlului:
+   <div class="subpunct" id="a"><span class="subpunct-l">a)</span>
+   <span class="subpunct-p">5 puncte</span></div>
+   ------------------------------------------- */
+
+.subpunct {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 2px solid var(--ink);
+  padding-top: 0.5rem;
+  margin: 3.2rem 0 0;
+  scroll-margin-top: 1.5rem;
+}
+.subpunct-l {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--accent);
+}
+.subpunct-p {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+/* Titlul care urmează marcajului stă lipit de el. */
+.subpunct + h2 { margin-top: 0.4rem; }
+
+/* ---------- Formulele pot depăși coloana de text ----------
+   Proza rămâne la ~65 de caractere, dar o formulă lungă are voie
+   să iasă în margini pe ecran lat, în loc să capete scroll propriu. */
+
+@media (min-width: 46rem) {
+  .katex-display {
+    margin-left: -3.5rem;
+    margin-right: -3.5rem;
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+  }
+}
+
+/* ---------- Problema anterioară / următoare ---------- */
+
+.navigare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+  margin-top: 3rem;
+  font-family: var(--sans);
+}
+.navigare a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  background: var(--card);
+  border: 1px solid var(--rule);
+  padding: 0.8rem 1rem;
+  text-decoration: none;
+  color: var(--ink);
+}
+.navigare a:hover { border-color: var(--accent); }
+.navigare-r { text-align: right; }
+.navigare-e {
+  font-size: 0.76rem;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.navigare-t { font-size: 0.9rem; line-height: 1.4; }
+@media (max-width: 34rem) {
+  .navigare { grid-template-columns: 1fr; }
+  .navigare-r { text-align: left; }
+}
+
+.inapoi {
+  font-family: var(--sans);
+  font-size: 0.86rem;
+  color: var(--ink-faint);
+  text-align: center;
+  margin: 1rem 0 0;
+}
+
+/* ---------- „Ce scrii efectiv pe foaie" ----------
+   Versiunea minimă care ia punctajul complet, conform baremului.
+   Restul articolului e explicație; asta e răspunsul. -------- */
+
+.pe-foaie {
+  background: var(--card);
+  border: 2px solid var(--accent);
+  padding: 1.1rem 1.3rem 1rem;
+  margin: 2.6rem 0 0;
+}
+.pe-foaie > :last-child { margin-bottom: 0; }
+.pe-foaie-eticheta {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.7rem !important;
+}
+.pe-foaie p { margin-bottom: 0.7rem; font-size: 0.97rem; }
+.pe-foaie .katex-display { margin: 0.7rem 0; }
+@media (min-width: 46rem) {
+  /* fără ieșirea în margini: caseta are chenar, formula stă în el */
+  .pe-foaie .katex-display {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* ---------- Tabel de variație ----------
+   Se scrie în articol ca <table class="variatie"> într-un
+   <div class="variatie-scroll">. Prima coloană e capul de rând
+   (x, f′(x), f(x)), restul alternează valori și intervale. ----- */
+
+.variatie-scroll { overflow-x: auto; margin: 1.2rem 0; }
+
+.variatie {
+  border-collapse: collapse;
+  font-family: var(--mono);
+  font-size: 0.86rem;
+  min-width: 100%;
+  background: var(--card);
+  border: 1px solid var(--rule);
+}
+.variatie th,
+.variatie td {
+  border: 1px solid var(--rule);
+  padding: 0.45rem 0.7rem;
+  text-align: center;
+  white-space: nowrap;
+}
+.variatie th {
+  text-align: left;
+  font-weight: 500;
+  color: var(--ink-soft);
+  background: var(--paper);
+}
+/* Rândul semnului derivatei: plusurile și minusurile poartă informația. */
+.variatie tr:nth-child(2) td { color: var(--accent); font-weight: 500; }
+/* Rândul funcției: săgețile și valorile extreme. */
+.variatie tr:nth-child(3) td { font-size: 0.95rem; }
+
+/* ---------- Pagina „Cine scrie aici" ---------- */
+
+/* ---------- Pagina Cine este Isa: deschiderea ----------
+   Text în stânga, portret mare în dreapta. Portretul nu are ramă:
+   fundalul lui alb se amestecă cu hârtia paginii (multiply), iar
+   marginile se sting treptat, ca fotografia să pară parte din pagină. */
+
+.erou {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin: 0 0 3rem;
+}
+
+.erou-poza {
+  margin: 0 -1rem;
+  order: -1;
+  position: relative;
+}
+
+.erou-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  mix-blend-mode: multiply;
+  -webkit-mask-image: radial-gradient(ellipse closest-side at 50% 50%, #000 58%, transparent 100%);
+  mask-image: radial-gradient(ellipse closest-side at 50% 50%, #000 58%, transparent 100%);
+}
+
+.erou-text { position: relative; z-index: 1; margin-top: -3.5rem; }
+
+/* Semnul discret din josul ecranului: arată că pagina continuă. */
+.erou-sageata {
+  display: none;
+  position: absolute;
+  left: 50%;
+  bottom: 1.4rem;
+  transform: translateX(-50%);
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  text-decoration: none;
+}
+.erou-sageata::after {
+  content: '';
+  width: 1px;
+  height: 2rem;
+  background: linear-gradient(var(--ink-faint), transparent);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .erou-sageata::after { animation: sageata 1.8s ease-in-out infinite; }
+}
+@keyframes sageata {
+  0%, 100% { transform: scaleY(0.5); transform-origin: top; opacity: 0.5; }
+  50% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+}
+
+.erou-eticheta {
+  font-family: var(--sans);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 0.6rem;
+}
+
+.erou-nume {
+  font-family: var(--serif);
+  font-size: clamp(2.3rem, 7vw, 3.6rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.6rem;
+}
+
+.erou-rol {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  margin: 0 0 1.6rem;
+}
+
+.erou-lede {
+  font-size: 1.12rem;
+  line-height: 1.6;
+  max-width: var(--measure);
+  margin: 0 0 1.8rem;
+}
+
+.erou-fapte {
+  font-family: var(--sans);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin: 0;
+  border-top: 1px solid var(--rule);
+  max-width: var(--measure);
+}
+.erou-fapte div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.erou-fapte dt {
+  font-size: 0.76rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.erou-fapte dd { margin: 0; font-size: 0.9rem; text-align: right; }
+
+@media (min-width: 52rem) {
+  /* Pe ecran lat, deschiderea iese din coloana paginii și ocupă tot
+     ecranul vizibil sub navigație: text la stânga, portret la dreapta,
+     nimic altceva până la prima derulare. */
+  .erou {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-top: -2.5rem;
+    margin-bottom: 4rem;
+    min-height: calc(100svh - 3.6rem);
+    padding: 0 max(2rem, calc((100vw - 80rem) / 2));
+    grid-template-columns: minmax(0, 36rem) minmax(0, 1fr);
+    align-items: center;
+    gap: 2rem;
+    position: relative;
+  }
+  .erou-poza {
+    order: 0;
+    margin: 0;
+    justify-self: end;
+    width: min(100%, 42rem, 86svh);
+  }
+  .erou-text { margin-top: 0; }
+  .erou-sageata { display: flex; }
+  .erou-img {
+    -webkit-mask-image: radial-gradient(ellipse closest-side at 50% 50%, #000 50%, transparent 100%);
+    mask-image: radial-gradient(ellipse closest-side at 50% 50%, #000 50%, transparent 100%);
+  }
+}
+
+/* Intrarea: textul urcă, portretul apare din ceață. O singură dată,
+   la încărcare, și doar dacă utilizatorul nu a cerut mai puțină mișcare. */
+@media (prefers-reduced-motion: no-preference) {
+  .erou-text > * { animation: erou-urca 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  .erou-text > :nth-child(2) { animation-delay: 0.08s; }
+  .erou-text > :nth-child(3) { animation-delay: 0.16s; }
+  .erou-text > :nth-child(4) { animation-delay: 0.24s; }
+  .erou-text > :nth-child(5) { animation-delay: 0.32s; }
+  .erou-img { animation: erou-ceata 1.4s ease-out both; }
+}
+
+@keyframes erou-urca {
+  from { opacity: 0; transform: translateY(0.8rem); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes erou-ceata {
+  from { opacity: 0; transform: scale(1.04); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+/* ---------- Pagina Cine este Isa: corpul ---------- */
+
+.despre-corp { max-width: var(--measure); margin: 0 auto; }
+
+.despre-sectiune { margin: 0 0 3.2rem; }
+.despre-sectiune h2 { margin-top: 0; }
+
+.sectiune-nr {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--accent);
+  margin: 0 0 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.sectiune-nr::after {
+  content: '';
+  flex: 0 0 2.5rem;
+  height: 1px;
+  background: var(--accent);
+}
+
+/* Cele trei principii: fiecare card intră de la stânga, pe rând, pe
+   măsură ce ajunge în ecran; numărul mare din colț se aprinde la hover,
+   iar bara de accent crește pe toată înălțimea. */
+.principii { display: grid; gap: 0.9rem; margin: 1.4rem 0 0; }
+.principiu {
+  position: relative;
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid var(--rule);
+  padding: 1.1rem 3.6rem 1.1rem 1.4rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.principiu::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent);
+  transform: scaleY(0.35);
+  transform-origin: top;
+  transition: transform 0.35s ease;
+}
+.principiu:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: 0 10px 24px -14px var(--ink-soft);
+}
+.principiu:hover::before { transform: scaleY(1); }
+.principiu-nr {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--serif);
+  font-size: 2.6rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--rule);
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+.principiu:hover .principiu-nr { color: var(--accent); transform: translateY(-50%) scale(1.1); }
+.principiu h3 {
+  font-family: var(--sans);
+  font-size: 0.98rem;
+  font-weight: 600;
+  margin: 0 0 0.35rem;
+}
+.principiu p { margin: 0; font-size: 0.95rem; color: var(--ink-soft); }
+.principiu p + p { margin-top: 0.5rem; }
+
+/* Ce am / ce nu am: cele două carduri vin din direcții opuse și se
+   întâlnesc la mijloc. „Ce nu am" rămâne discret, „Ce am" e accentuat. */
+.comparatie .card {
+  position: relative;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.comparatie .card:hover { transform: translateY(-3px); box-shadow: 0 10px 24px -14px var(--ink-soft); }
+.comparatie .card-nu h3 { color: var(--ink-faint); }
+.comparatie .card-da { border-color: var(--accent); background: var(--accent-bg); }
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .principiu {
+      animation: intra-stanga linear both;
+      animation-timeline: view();
+    }
+    .principiu:nth-child(1) { animation-range: entry 0% cover 20%; }
+    .principiu:nth-child(2) { animation-range: entry 10% cover 28%; }
+    .principiu:nth-child(3) { animation-range: entry 20% cover 36%; }
+
+    .comparatie .card-nu,
+    .comparatie .card-da {
+      animation-timeline: view();
+      animation-range: entry 5% cover 30%;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+    }
+    .comparatie .card-nu { animation-name: intra-stanga; }
+    .comparatie .card-da { animation-name: intra-dreapta; }
+  }
+}
+
+@keyframes intra-stanga {
+  from { opacity: 0; translate: -2rem 0; }
+  to { opacity: 1; translate: 0 0; }
+}
+@keyframes intra-dreapta {
+  from { opacity: 0; translate: 2rem 0; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+/* ---------- Pagina Meditații ----------
+   Deschiderea: titlul și butoanele în stânga, un card cu tariful,
+   datele practice și locurile libere în dreapta. Pe ecran lat ocupă
+   tot ecranul vizibil, ca pagina Cine este Isa. */
+
+.med-erou {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.2rem;
+  margin: 0 0 3.5rem;
+}
+
+.med-titlu {
+  font-size: clamp(2.2rem, 6.5vw, 3.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 0 0 1rem;
+}
+
+.med-lede {
+  font-size: 1.12rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: var(--measure);
+  margin: 0 0 1.8rem;
+}
+
+.buton-mare { font-size: 0.95rem; padding: 0.75rem 1.4rem; }
+.buton { transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; }
+.buton-mare:hover { transform: translateY(-2px); box-shadow: 0 8px 18px -10px var(--accent); }
+
+.oferta {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--accent);
+  padding: 1.6rem 1.6rem 1.4rem;
+  box-shadow: 0 18px 40px -28px var(--ink-soft);
+}
+.oferta-eticheta {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 0 0 0.4rem;
+}
+.oferta-tarif {
+  font-family: var(--serif);
+  font-size: 2.2rem;
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0 0 1.2rem;
+}
+.oferta-durata {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: var(--ink-soft);
+  margin-top: 0.2rem;
+}
+.oferta-fapte { font-family: var(--sans); margin: 0 0 1.4rem; border-top: 1px solid var(--rule); }
+.oferta-fapte div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.oferta-fapte dt { font-size: 0.8rem; color: var(--ink-faint); }
+.oferta-fapte dd { margin: 0; font-size: 0.86rem; text-align: right; }
+
+.buton-whatsapp { display: flex; justify-content: center; padding: 0.75rem 1rem; }
+.cu-icon { display: inline-flex; align-items: center; gap: 0.5rem; }
+.buton-whatsapp.cu-icon { display: flex; }
+.icon-whatsapp { flex-shrink: 0; }
+.locuri-text { font-family: var(--sans); font-size: 0.9rem; margin: 0 0 0.55rem; }
+.locuri-text strong { color: var(--accent); font-size: 1.1rem; }
+.locuri-bara { display: flex; gap: 0.3rem; margin: 0 0 0.6rem; }
+.loc {
+  flex: 1;
+  height: 0.5rem;
+  border-radius: 2px;
+  background: var(--accent);
+}
+.loc.ocupat { background: var(--rule); }
+.locuri-nota { font-family: var(--sans); font-size: 0.78rem; color: var(--ink-faint); margin: 0; }
+
+/* Pașii de început: o linie verticală care leagă trei puncte. */
+.pasi { list-style: none; padding: 0; margin: 1.4rem 0 0; counter-reset: pas; }
+.pas-inceput {
+  position: relative;
+  padding: 0 0 1.6rem 3rem;
+  counter-increment: pas;
+}
+.pas-inceput::before {
+  content: counter(pas);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  box-shadow: 0 0 0 5px var(--accent-bg);
+}
+.pas-inceput::after {
+  content: '';
+  position: absolute;
+  left: calc(1rem - 1px);
+  top: 2.4rem;
+  bottom: 0.3rem;
+  width: 2px;
+  background: linear-gradient(var(--accent), var(--rule));
+}
+.pas-inceput:last-child { padding-bottom: 0; }
+.pas-inceput:last-child::after { display: none; }
+.pas-inceput h3 { font-family: var(--sans); font-size: 1rem; margin: 0.2rem 0 0.3rem; }
+.pas-inceput p { margin: 0; color: var(--ink-soft); font-size: 0.97rem; }
+
+.med-final {
+  margin: 3.5rem 0 0;
+  padding: 2rem 1.8rem;
+  background: var(--accent-bg);
+  border-left: 3px solid var(--accent);
+}
+.med-final h2 { margin: 0 0 0.5rem; }
+.med-final p { color: var(--ink-soft); }
+
+@media (min-width: 52rem) {
+  .med-erou {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-top: -2.5rem;
+    margin-bottom: 4rem;
+    min-height: calc(100svh - 3.6rem);
+    padding: 2rem max(2rem, calc((100vw - 66rem) / 2));
+    grid-template-columns: minmax(0, 1fr) 24rem;
+    align-items: center;
+    gap: 4rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .med-erou-text > * { animation: erou-urca 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  .med-erou-text > :nth-child(2) { animation-delay: 0.08s; }
+  .med-erou-text > :nth-child(3) { animation-delay: 0.16s; }
+  .med-erou-text > :nth-child(4) { animation-delay: 0.24s; }
+  .oferta { animation: erou-urca 0.8s 0.2s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  /* Locurile se umplu unul câte unul la încărcare. */
+  .loc { animation: loc-apare 0.4s ease-out both; animation-delay: calc(0.5s + var(--i) * 0.07s); }
+  .pas-inceput {
+    animation: intra-stanga linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 25%;
+  }
+}
+@supports not (animation-timeline: view()) {
+  .pas-inceput { animation: none; }
+}
+
+@keyframes loc-apare {
+  from { transform: scaleX(0); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+.citat {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1.3rem, 3.6vw, 1.65rem);
+  line-height: 1.35;
+  color: var(--ink);
+  margin: 2rem 0 0;
+  padding: 0 0 0 1.2rem;
+  border-left: 3px solid var(--accent);
+}
+
+/* ---------- Două cartonașe alăturate ---------- */
+
+.doua {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.7rem;
+  margin: 1.6rem 0;
+}
+@media (min-width: 40rem) {
+  .doua { grid-template-columns: 1fr 1fr; }
+}
+.doua .card { margin: 0; }
+.doua .card h3 {
+  font-family: var(--sans);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 0.45rem;
+}
+.doua .card p { margin: 0; font-size: 0.95rem; }
+
+/* ---------- Apariția la derulare ----------
+   Efect opțional: unde browserul nu îl suportă, conținutul e pur și
+   simplu vizibil. Se dezactivează dacă utilizatorul a cerut mai
+   puțină mișcare. ------------------------------------------------ */
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: apare linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 22%;
+    }
+  }
+}
+
+@keyframes apare {
+  from { opacity: 0; transform: translateY(0.9rem); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Cele trei principii de lucru. Fiecare începe cu o afirmație
+   îngroșată, ca să se citească și dacă sari peste restul. */
+.metoda {
+  border-left: 2px solid var(--accent);
+  padding-left: 1.1rem;
+  margin: 1.5rem 0;
+}
+.metoda p { margin-bottom: 0.8rem; font-size: 0.97rem; }
+.metoda p:last-child { margin-bottom: 0; }
+.metoda strong { font-weight: 600; }
+
+/* ---------- Desene de geometrie ----------
+   SVG inline în articol, într-un <figure class="desen">.
+   Culorile vin din variabilele temei, ca desenul să se potrivească
+   cu pagina și să rămână corect dacă schimbi paleta. ------------ */
+
+.desen {
+  margin: 1.4rem 0;
+  background: var(--card);
+  border: 1px solid var(--rule);
+  padding: 1rem 0.8rem 0.6rem;
+}
+.desen svg { display: block; width: 100%; height: auto; }
+.desen figcaption {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+  text-align: center;
+  margin-top: 0.5rem;
+  line-height: 1.4;
+}
+
+/* Elementele desenului, ca să nu repeți atributele pe fiecare formă. */
+.desen .ax { stroke: var(--ink-faint); stroke-width: 1; }
+.desen .fig { stroke: var(--ink); stroke-width: 2; fill: none; }
+.desen .aux { stroke: var(--ink-faint); stroke-width: 1; stroke-dasharray: 4 4; }
+.desen .cerc { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.desen .vect { stroke: var(--accent); stroke-width: 2.5; fill: none; }
+.desen .pct { fill: var(--ink); }
+.desen .et {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-style: italic;
+  fill: var(--ink);
+}
+.desen .et-mic {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-style: normal;
+  fill: var(--ink-faint);
+}
+.desen .et-acc { fill: var(--accent); }
+
+/* ---------- Metodă alternativă ----------
+   Căi secundare pe care baremul le acceptă. Se disting de `.aside`
+   printr-o bară verticală: sunt rezolvare, nu comentariu. */
+
+.alternativa {
+  border-left: 2px dashed var(--ink-faint);
+  padding: 0.2rem 0 0.2rem 1.1rem;
+  margin: 1.6rem 0;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+}
+.alternativa > :last-child { margin-bottom: 0; }
+.alternativa strong { color: var(--ink); font-weight: 600; }
+
+/* ---------- Atenționare scurtă, în linie ----------
+   Capcane de barem semnalate exact acolo unde apar. */
+
+.atentie {
+  display: block;
+  border-left: 2px solid var(--warn);
+  background: var(--warn-bg);
+  padding: 0.5rem 0.8rem;
+  margin: 0.9rem 0;
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  color: var(--warn);
+}
+.atentie strong { font-weight: 600; }

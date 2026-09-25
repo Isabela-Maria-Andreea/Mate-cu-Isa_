@@ -1,0 +1,131 @@
+---
+import Base from './Base.astro';
+import Contact from '../components/Contact.astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { VARIANTE_DUPA_ID } from '../variante';
+
+interface Props {
+  entry: CollectionEntry<'rezolvari'>;
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+
+const greutate = ['', 'ușoară', 'ușoară', 'medie', 'grea', 'foarte grea'][d.dificultate];
+
+// Enunțul oficial vine din colecția `enunturi`, nu din corpul articolului:
+// se transcrie și se verifică o singură dată pe variantă.
+const enunturi = await getCollection('enunturi');
+const potrivit = enunturi.find(
+  (e) =>
+    e.data.varianta === d.varianta &&
+    e.data.subiect === d.subiect &&
+    e.data.pozitie === d.pozitie,
+);
+const Enunt = potrivit ? (await render(potrivit)).Content : null;
+
+const LITERE = ['a', 'b', 'c', 'd', 'e'];
+
+// Problema anterioară și următoarea din aceeași variantă, ca să se poată
+// parcurge varianta în ordine fără întoarcere la listă.
+const ORDINE_SUBIECT: Record<string, number> = { I: 0, II: 1, III: 2 };
+const dinVarianta = (
+  await getCollection('rezolvari', ({ data }) => !data.ciorna)
+)
+  .filter((r) => d.varianta && r.data.varianta === d.varianta)
+  .sort(
+    (a, b) =>
+      ORDINE_SUBIECT[a.data.subiect] - ORDINE_SUBIECT[b.data.subiect] ||
+      a.data.pozitie - b.data.pozitie,
+  );
+
+const idx = dinVarianta.findIndex((r) => r.id === entry.id);
+const anterioara = idx > 0 ? dinVarianta[idx - 1] : null;
+const urmatoarea =
+  idx >= 0 && idx < dinVarianta.length - 1 ? dinVarianta[idx + 1] : null;
+const varianta = VARIANTE_DUPA_ID.get(d.varianta ?? '');
+---
+
+<Base titlu={`${d.titluSeo ?? d.titlu} — matecuisa`} descriere={d.descriere}>
+  <div class="trail">
+    <a href="/rezolvari/">Rezolvări</a> › {d.capitol}
+  </div>
+
+  <h1>{d.titlu}</h1>
+
+  <div class="tags">
+    <span class="tag">{d.capitol}</span>
+    <span class="tag plain">{d.sursa}</span>
+    <span class="tag plain">{d.punctaj} puncte</span>
+    <span class="tag plain">{greutate}</span>
+  </div>
+
+  {
+    d.subpuncte && d.subpuncte.length > 0 && (
+      <nav class="cuprins" aria-label="Subpunctele problemei">
+        {d.subpuncte.map((s, i) => (
+          <a href={`#${LITERE[i]}`}>
+            <span class="cuprins-l">{LITERE[i]})</span> {s}
+          </a>
+        ))}
+      </nav>
+    )
+  }
+
+  {
+    Enunt ? (
+      <div class="enunt">
+        <p class="enunt-eticheta">Enunț</p>
+        <Enunt />
+      </div>
+    ) : (
+      <div class="enunt lipsa">
+        <p class="enunt-eticheta">Enunț</p>
+        <p>
+          Enunțul oficial nu e transcris încă. Adaugă un fișier în
+          <code> src/content/enunturi/</code> cu
+          <code> varianta: "{d.varianta ?? '—'}"</code>,
+          <code> subiect: "{d.subiect}"</code>,
+          <code> pozitie: {d.pozitie}</code>.
+        </p>
+      </div>
+    )
+  }
+
+  <slot />
+
+  {
+    (anterioara || urmatoarea) && (
+      <nav class="navigare" aria-label="Alte probleme din variantă">
+        {anterioara ? (
+          <a class="navigare-l" href={`/rezolvari/${anterioara.id}/`}>
+            <span class="navigare-e">← Problema anterioară</span>
+            <span class="navigare-t">
+              {anterioara.data.subiect}.{anterioara.data.pozitie} · {anterioara.data.titlu}
+            </span>
+          </a>
+        ) : (
+          <span />
+        )}
+        {urmatoarea && (
+          <a class="navigare-r" href={`/rezolvari/${urmatoarea.id}/`}>
+            <span class="navigare-e">Problema următoare →</span>
+            <span class="navigare-t">
+              {urmatoarea.data.subiect}.{urmatoarea.data.pozitie} · {urmatoarea.data.titlu}
+            </span>
+          </a>
+        )}
+      </nav>
+    )
+  }
+
+  {
+    varianta && (
+      <p class="inapoi">
+        Toate problemele din <a href={`/variante/${varianta.id}/`}>{varianta.titlu}</a>
+      </p>
+    )
+  }
+
+  <Contact />
+</Base>

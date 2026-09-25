@@ -1,0 +1,19 @@
+---
+import { getCollection, render } from 'astro:content';
+import Rezolvare from '../../layouts/Rezolvare.astro';
+
+export async function getStaticPaths() {
+  const toate = await getCollection('rezolvari', ({ data }) => !data.ciorna);
+  return toate.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<Rezolvare entry={entry}>
+  <Content />
+</Rezolvare>

@@ -1,0 +1,69 @@
+---
+import '../styles/global.css';
+import 'katex/dist/katex.min.css';
+import { SITE } from '../config';
+
+interface Props {
+  titlu: string;
+  descriere: string;
+  wide?: boolean;
+}
+
+const { titlu, descriere, wide = false } = Astro.props;
+const cale = Astro.url.pathname;
+
+const linkuri = [
+  { href: '/variante/', text: 'Variante' },
+  { href: '/rezolvari/', text: 'Rezolvări' },
+  { href: '/meditatii/', text: 'Meditații' },
+  { href: '/despre/', text: 'Cine este Isa' },
+];
+
+const activ = (href: string) =>
+  href === '/' ? cale === '/' : cale.startsWith(href);
+---
+
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titlu}</title>
+    <meta name="description" content={descriere} />
+    <meta property="og:title" content={titlu} />
+    <meta property="og:description" content={descriere} />
+    <meta property="og:type" content="website" />
+    <link rel="canonical" href={new URL(cale, Astro.site)} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="chrome">
+      <div class="chrome-in">
+        <a class="wordmark" href="/">mate<span>cuisa</span></a>
+        <nav class="nav">
+          {
+            linkuri.map((l) => (
+              <a href={l.href} aria-current={activ(l.href) ? 'page' : undefined}>
+                {l.text}
+              </a>
+            ))
+          }
+        </nav>
+      </div>
+    </header>
+
+    <main class={wide ? 'wide' : undefined}>
+      <slot />
+    </main>
+
+    <footer>
+      {SITE.nume} · matematică pentru bacalaureat, M_mate-info ·
+      <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+    </footer>
+  </body>
+</html>
