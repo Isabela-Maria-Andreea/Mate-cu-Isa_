@@ -5,7 +5,7 @@
 export const SITE = {
   nume: 'matecuisa',
   domeniu: 'matecuisa.ro',
-  email: 'scrie@matecuisa.ro',
+  email: 'andreeaisabela003@gmail.com',
   whatsapp: '40770378638', // ex. '40712345678' — lasă gol ca să nu apară butonul
   // Mesajul care apare deja scris când elevul deschide WhatsApp din site.
   mesajWhatsapp:

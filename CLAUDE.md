@@ -1,3 +1,4 @@
+
 # matecuisa
 
 Site de matematică pentru bacalaureat (programa M_mate-info), scris de Isa,
@@ -21,16 +22,16 @@ pare să aibă nevoie de ele, spune asta și întreabă înainte.
 
 ## Harta fișierelor
 
-| Ce | Unde |
-|---|---|
-| Rezolvări (conținut) | `src/content/rezolvari/*.md` |
-| Schema de frontmatter | `src/content.config.ts` |
-| Nume, email, WhatsApp, tarif, locuri | `src/config.ts` |
-| Tot CSS-ul | `src/styles/global.css` |
-| Cadrul paginii (nav, head, footer) | `src/layouts/Base.astro` |
-| Pagina de rezolvare | `src/layouts/Rezolvare.astro` |
-| Invitația la meditații | `src/components/Contact.astro` |
-| Paginile fixe | `src/pages/` |
+| Ce                                   | Unde                             |
+| ------------------------------------ | -------------------------------- |
+| Rezolvări (conținut)               | `src/content/rezolvari/*.md`   |
+| Schema de frontmatter                | `src/content.config.ts`        |
+| Nume, email, WhatsApp, tarif, locuri | `src/config.ts`                |
+| Tot CSS-ul                           | `src/styles/global.css`        |
+| Cadrul paginii (nav, head, footer)   | `src/layouts/Base.astro`       |
+| Pagina de rezolvare                  | `src/layouts/Rezolvare.astro`  |
+| Invitația la meditații             | `src/components/Contact.astro` |
+| Paginile fixe                        | `src/pages/`                   |
 
 ## Reguli de conținut
 
@@ -42,13 +43,6 @@ $$
 a_n = \sqrt{n^2 + 3n + 2} - n
 $$
 ```
-
-**Fișierele cu LaTeX se scriu cu tool-ul Write sau Edit, niciodată prin
-shell.** Shell-ul din Claude Code transformă `\\` în `\`, chiar și în
-heredoc-uri cu `'EOF'`, iar separatorul de rând din matrice dispare: matricea
-iese pe un singur rând. La fel, nu verifica `\\` cu `cat` sau `grep`, pentru că
-și afișarea îl strică; citește fișierul cu Read. Scripturile Python scriu pe
-Windows cu CRLF, iar `verifica` nu mai recunoaște frontmatter-ul.
 
 **Înăuntrul unui `<div>` trebuie rând gol** după deschidere și înainte de
 închidere, altfel conținutul nu mai e parsat ca Markdown.
